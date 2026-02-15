@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Language - MOODIFY</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="center-page">
+
+<div class="card">
+    <h2>Choose Your Language</h2>
+
+    <form action="/set_language" method="POST">
+        <div class="options">
+            <button type="submit" name="language" value="English" class="option-btn">
+                English
+            </button>
+
+            <button type="submit" name="language" value="Hindi" class="option-btn">
+                Hindi
+            </button>
+
+           
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

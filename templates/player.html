@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MOODIFY Player</title>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="player-page theme-{{ language|lower }} mood-{{ mood|lower }}">
+
+<div class="main-container">
+
+    <div class="top-section">
+
+        <div class="selection-info">
+            <h2 class="selection-text">
+                {{ selected_language|title }} • {{ selected_mood|title }}
+            </h2>
+            <button onclick="window.history.back()" class="change-btn">
+                Change Selection
+            </button>
+        </div>
+
+        <div class="player-section">
+
+            <div class="player-card">
+
+                <p class="now-label">Currently Playing</p>
+
+                <img id="album-art" class="big-album-art" src="">
+
+                <div class="track-info">
+                    <h3 id="track-name">Loading...</h3>
+                    <p id="artist-name"></p>
+                </div>
+
+                <div class="player-controls">
+                    <button onclick="previous()" class="circle-btn">⏮</button>
+                    <button onclick="togglePlay()" class="circle-btn play-btn">▶</button>
+                    <button onclick="next()" class="circle-btn">⏭</button>
+                </div>
+
+                <div class="progress-container">
+                    <div id="progress-bar"></div>
+                </div>
+
+                <div class="volume-container">
+                    <span class="volume-icon">🔊</span>
+                    <input type="range"
+                           min="0"
+                           max="1"
+                           step="0.01"
+                           value="0.8"
+                           oninput="setVolume(this.value)"
+                           class="volume-slider">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-section">
+
+        <h3 class="section-title">Suggested Playlists</h3>
+
+        <div class="suggestion-list">
+        {% for playlist in suggestions %}
+            <div class="playlist-card {% if playlist.id == main_playlist.id %}active-playlist{% endif %}">
+                <iframe 
+                    src="https://open.spotify.com/embed/playlist/{{ playlist.id }}"
+                    allow="encrypted-media">
+                </iframe>
+            </div>
+        {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const token = "{{ session['access_token'] }}";
+const playlistUri = "spotify:playlist:{{ main_playlist.id }}";
+let player;
+let deviceId;
+let isPlaying = false;
+
+window.onSpotifyWebPlaybackSDKReady = () => {
+
+    player = new Spotify.Player({
+        name: 'MOODIFY Web Player',
+        getOAuthToken: cb => { cb(token); },
+        volume: 0.8
+    });
+
+    player.addListener('ready', async ({ device_id }) => {
+        deviceId = device_id;
+
+        await fetch('https://api.spotify.com/v1/me/player', {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                device_ids: [deviceId],
+                play: false
+            })
+        });
+
+        await fetch(
+            'https://api.spotify.com/v1/me/player/play?device_id=' + deviceId,
+            {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    context_uri: playlistUri,
+                    offset: { position: 0 },
+                    position_ms: 0
+                })
+            }
+        );
+    });
+
+    player.addListener('player_state_changed', state => {
+        if (!state) return;
+
+        const current = state.track_window.current_track;
+
+        document.getElementById('track-name').innerText = current.name;
+        document.getElementById('artist-name').innerText =
+            current.artists.map(a => a.name).join(', ');
+
+        document.getElementById('album-art').src =
+            current.album.images[0].url;
+
+        const progress = (state.position / state.duration) * 100;
+        document.getElementById("progress-bar").style.width = progress + "%";
+
+        isPlaying = !state.paused;
+        document.querySelector('.play-btn').innerText =
+            isPlaying ? '⏸' : '▶';
+    });
+
+    player.connect();
+};
+
+function togglePlay() {
+    player.togglePlay();
+}
+
+function next() {
+    fetch(
+        'https://api.spotify.com/v1/me/player/next?device_id=' + deviceId,
+        {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + token }
+        }
+    );
+}
+
+function previous() {
+    fetch(
+        'https://api.spotify.com/v1/me/player/previous?device_id=' + deviceId,
+        {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + token }
+        }
+    );
+}
+
+function setVolume(value) {
+    player.setVolume(parseFloat(value));
+}
+
+</script>
+
+</body>
+</html>

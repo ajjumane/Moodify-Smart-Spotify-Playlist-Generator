@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Mood - MOODIFY</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="center-page">
+
+<div class="card">
+    <h2>Select Your Mood</h2>
+
+    <form action="/search" method="POST">
+        <div class="options">
+            <button type="submit" name="mood" value="Party" class="option-btn">Party</button>
+            <button type="submit" name="mood" value="Sad" class="option-btn">Sad</button>
+            <button type="submit" name="mood" value="Romantic" class="option-btn">Romantic</button>
+            <button type="submit" name="mood" value="Energetic" class="option-btn">Energetic</button>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>
