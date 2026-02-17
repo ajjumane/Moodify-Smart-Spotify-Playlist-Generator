@@ -4,6 +4,8 @@
     <title>MOODIFY Player</title>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+
 </head>
 
 <body class="player-page theme-{{ language|lower }} mood-{{ mood|lower }}">
@@ -181,3 +183,4 @@ function setVolume(value) {
 
 </body>
 </html>
+
