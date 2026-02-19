@@ -708,3 +708,38 @@ input[type="range"]::-moz-range-thumb {
     transform: translateX(-3px);
 }
 
+/* ============================= */
+/* MOBILE RESPONSIVE SECTION */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+    /* Player Page */
+    .player-card {
+        width: 100%;
+        padding: 25px 20px;
+        border-radius: 20px;
+    }
+
+    .big-album-art {
+        width: 220px;
+        height: 220px;
+    }
+
+    .progress-wrapper,
+    .volume-container {
+        width: 100%;
+    }
+
+    .card {
+        width: 100%;
+        padding: 30px 20px;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+}
