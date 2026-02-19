@@ -5,6 +5,17 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+
 :root {
     --accent-1: #0478d7;
     --accent-2: #0c7fdd;
@@ -13,7 +24,7 @@
 }
 
 body.center-page {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,7 +48,7 @@ body.center-page {
 }
 
 body.center-page {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,7 +70,7 @@ body::after {
     content: "";
     position: absolute;
     width: 400px;
-    height: 400px;
+    min-height: 400px;
     border-radius: 50%;
     background: rgba(0, 174, 255, 0.15);
     filter: blur(120px);
@@ -122,7 +133,7 @@ body::after {
 
 .equalizer span {
     width: 6px;
-    height: 20px;
+    min-height: 20px;
     background: #00c6ff;
     border-radius: 5px;
     animation: equalize 1s infinite ease-in-out;
@@ -134,8 +145,8 @@ body::after {
 .equalizer span:nth-child(5) { animation-delay: .8s; }
 
 @keyframes equalize {
-    0%,100% { height: 15px; }
-    50% { height: 40px; }
+    0%,100% { min-height: 15px; }
+    50% { min-height: 40px; }
 }
 
 .main-btn {
@@ -159,7 +170,7 @@ body::after {
 .music-bg {
     position: absolute;
     width: 100%;
-    height: 100%;
+        min-height: 100%;
     overflow: hidden;
     pointer-events: none;
     z-index: 0;
@@ -298,7 +309,7 @@ h2 {
 
 .playlist-card iframe {
     width: 100%;
-    height: 360px;
+    min-height: 360px;
     border-radius: 22px;
     box-shadow: 0 25px 60px rgba(0,0,0,0.55);
 }
@@ -319,7 +330,7 @@ h2 {
 
     .album-art {
         width: 140px;
-        height: 140px;
+        min-height: 140px;
     }
 
     h1 {
@@ -406,7 +417,7 @@ h2 {
 
 .big-album-art {
     width: 240px;
-    height: 240px;
+    min-height: 240px;
     object-fit: cover;
     border-radius: 28px;
     margin: 0 auto 25px;
@@ -447,7 +458,7 @@ h2 {
 
 .circle-btn {
     width: 65px;
-    height: 65px;
+    min-height: 65px;
     border-radius: 50%;
     border: none;
     background: rgba(255,255,255,0.12);
@@ -465,7 +476,7 @@ h2 {
 
 .play-btn {
     width: 85px;
-    height: 85px;
+    min-height: 85px;
     font-size: 26px;
     background: linear-gradient(135deg, #ff512f, #dd2476);
     box-shadow: 0 15px 40px rgba(0,0,0,0.6);
@@ -478,7 +489,7 @@ h2 {
 
 .progress-container {
     width: 100%;
-    height: 8px;
+    min-height: 8px;
     background: rgba(255,255,255,0.2);
     border-radius: 50px;
     overflow: hidden;
@@ -489,7 +500,7 @@ h2 {
 
 #progress-bar {
     width: 0%;
-    height: 100%;
+    min-height: 100%;
     background: linear-gradient(135deg, #ff512f, #dd2476);
     border-radius: 50px;
     transition: width 0.2s linear;
@@ -510,7 +521,7 @@ input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
     flex: 1;
-    height: 6px;
+    min-height: 6px;
     border-radius: 50px;
     outline: none;
     cursor: pointer;
@@ -521,7 +532,7 @@ input[type="range"] {
 #progress-slider {
     flex: 1;
     appearance: none;
-    height: 6px;
+    min-height: 6px;
     border-radius: 10px;
     background: linear-gradient(to right, #00e0ff, #007bff);
     outline: none;
@@ -530,14 +541,14 @@ input[type="range"] {
 }
 
 #progress-slider::-webkit-slider-runnable-track {
-    height: 6px;
+    min-height: 6px;
     border-radius: 10px;
 }
 
 #progress-slider::-webkit-slider-thumb {
     appearance: none;
     width: 16px;
-    height: 16px;
+    min-height: 16px;
     border-radius: 50%;
     background: white;
     box-shadow: 0 0 10px rgba(0, 198, 255, 0.8);
@@ -552,7 +563,7 @@ input[type="range"] {
 
 #progress-slider::-moz-range-thumb {
     width: 16px;
-    height: 16px;
+    min-height: 16px;
     border-radius: 50%;
     background: white;
     box-shadow: 0 0 10px rgba(0, 198, 255, 0.8);
@@ -587,7 +598,7 @@ input[type="range"] {
 .volume-slider {
     flex: 1;
     appearance: none;
-    height: 5px;
+    min-height: 5px;
     border-radius: 10px;
     background: linear-gradient(to right, #ff9f1c, #ff3d00);
     cursor: pointer;
@@ -597,7 +608,7 @@ input[type="range"] {
 .volume-slider::-webkit-slider-thumb {
     appearance: none;
     width: 14px;
-    height: 14px;
+    min-height: 14px;
     border-radius: 50%;
     background: white;
     box-shadow: 0 0 8px rgba(255, 80, 0, 0.8);
@@ -611,21 +622,21 @@ input[type="range"] {
 
 .volume-slider::-moz-range-thumb {
     width: 14px;
-    height: 14px;
+    min-height: 14px;
     border-radius: 50%;
     background: white;
 }
 
 
 input[type="range"]::-webkit-slider-runnable-track {
-    height: 6px;
+    min-height: 6px;
     border-radius: 50px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 16px;
-    height: 16px;
+    min-height: 16px;
     border-radius: 50%;
     background: white;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
@@ -639,7 +650,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 input[type="range"]::-moz-range-thumb {
     width: 16px;
-    height: 16px;
+    min-height: 16px;
     border-radius: 50%;
     background: white;
 }
@@ -654,7 +665,7 @@ input[type="range"]::-moz-range-thumb {
 @media (max-width: 600px) {
     .big-album-art {
         width: 190px;
-        height: 190px;
+        min-height: 190px;
     }
 
     .player-card {
@@ -723,7 +734,7 @@ input[type="range"]::-moz-range-thumb {
 
     .big-album-art {
         width: 220px;
-        height: 220px;
+        min-height: 220px;
     }
 
     .progress-wrapper,
