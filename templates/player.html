@@ -5,7 +5,6 @@
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
-
 </head>
 
 <body class="player-page theme-{{ language|lower }} mood-{{ mood|lower }}">
@@ -42,12 +41,27 @@
                     <button onclick="next()" class="circle-btn">⏭</button>
                 </div>
 
-                <div class="progress-container">
-                    <div id="progress-bar"></div>
+                <!-- NEW PROGRESS SECTION -->
+                <div class="progress-wrapper">
+                    <span id="current-time">0:00</span>
+
+                    <input type="range"
+                           id="progress-slider"
+                           min="0"
+                           max="100"
+                           value="0"
+                           step="1">
+
+                    <span id="total-time">0:00</span>
                 </div>
 
                 <div class="volume-container">
-                    <span class="volume-icon">🔊</span>
+                <span class="volume-icon">
+                    <svg viewBox="0 0 24 24" width="25" height="25" fill="currentColor">
+                        <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+                        <path d="M14.5 12c0-1.77-1-3.29-2.5-4.03v8.05c1.5-.73 2.5-2.25 2.5-4.02z"/>
+                    </svg>
+                </span>
                     <input type="range"
                            min="0"
                            max="1"
@@ -63,20 +77,21 @@
 
     <div class="bottom-section">
 
-        <h3 class="section-title">Suggested Playlists</h3>
+    <h3 class="section-title">Suggested Playlists</h3>
 
-        <div class="suggestion-list">
-        {% for playlist in suggestions %}
-            <div class="playlist-card {% if playlist.id == main_playlist.id %}active-playlist{% endif %}">
-                <iframe 
-                    src="https://open.spotify.com/embed/playlist/{{ playlist.id }}"
-                    allow="encrypted-media">
-                </iframe>
-            </div>
-        {% endfor %}
+    <div class="suggestion-list">
+    {% for playlist in suggestions %}
+        <div class="playlist-card {% if playlist.id == main_playlist.id %}active-playlist{% endif %}">
+            <iframe 
+                src="https://open.spotify.com/embed/playlist/{{ playlist.id }}"
+                allow="encrypted-media">
+            </iframe>
         </div>
-
+    {% endfor %}
     </div>
+
+</div>
+
 
 </div>
 
@@ -84,9 +99,22 @@
 
 const token = "{{ session['access_token'] }}";
 const playlistUri = "spotify:playlist:{{ main_playlist.id }}";
+
 let player;
 let deviceId;
 let isPlaying = false;
+let durationMs = 0;
+let positionMs = 0;
+
+const progressSlider = document.getElementById("progress-slider");
+const currentTimeEl = document.getElementById("current-time");
+const totalTimeEl = document.getElementById("total-time");
+
+function formatTime(ms) {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+}
 
 window.onSpotifyWebPlaybackSDKReady = () => {
 
@@ -140,16 +168,38 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         document.getElementById('album-art').src =
             current.album.images[0].url;
 
-        const progress = (state.position / state.duration) * 100;
-        document.getElementById("progress-bar").style.width = progress + "%";
+        durationMs = state.duration;
+        positionMs = state.position;
+
+        totalTimeEl.innerText = formatTime(durationMs);
+        currentTimeEl.innerText = formatTime(positionMs);
+
+        progressSlider.value = (positionMs / durationMs) * 100;
 
         isPlaying = !state.paused;
         document.querySelector('.play-btn').innerText =
             isPlaying ? '⏸' : '▶';
     });
 
+    // Real-time progress updater
+    setInterval(async () => {
+        const state = await player.getCurrentState();
+        if (!state) return;
+
+        durationMs = state.duration;
+        positionMs = state.position;
+
+        currentTimeEl.innerText = formatTime(positionMs);
+        progressSlider.value = (positionMs / durationMs) * 100;
+    }, 1000);
+
     player.connect();
 };
+
+progressSlider.addEventListener("input", async function () {
+    const seekPosition = (this.value / 100) * durationMs;
+    await player.seek(seekPosition);
+});
 
 function togglePlay() {
     player.togglePlay();
