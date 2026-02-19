@@ -95,10 +95,16 @@ def login():
 
 @app.route("/callback")
 def callback():
+    error = request.args.get("error")
+    if error:
+        return f"Spotify authorization failed: {error}"
+
+    code = request.args.get("code")
+    if not code:
+        return "No authorization code received."
+
     code = request.args.get("code")
 
-    if not code:
-        return redirect("/")
 
     auth_header = base64.b64encode(
         f"{CLIENT_ID}:{CLIENT_SECRET}".encode()
@@ -128,9 +134,7 @@ def callback():
     session["refresh_token"] = token_data.get("refresh_token")
     session["expires_at"] = int(time.time()) + token_data.get("expires_in", 3600)
 
-    # -----------------------------
-    # FETCH SPOTIFY PROFILE
-    # -----------------------------
+
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
