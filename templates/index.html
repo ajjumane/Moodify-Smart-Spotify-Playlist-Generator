@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MOODIFY</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+    <title>Moodify - Smart Spotify Playlist Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
 </head>
+
 <body class="center-page">
 
 <div class="music-bg">
@@ -18,16 +18,25 @@
     <span>♪</span>
 </div>
 
+<div class="card landing-card">
 
-<div class="card">
     <h1 class="logo">MOODIFY</h1>
-    <p class="tagline">Feel the vibe. Choose your mood.</p>
+
+    <p class="tagline">
+        Real-time mood swings.
+    </p>
 
     <div class="equalizer">
         <span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <a href="/login" class="main-btn">Get Started</a>
+    <a href="{{ url_for('login') }}" class="spotify-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" width="20">
+        Continue with Spotify
+    </a>
+
+ 
+
 </div>
 
 </body>

@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Choose Language - MOODIFY</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+    <title>Select Language - Moodify</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
 </head>
+
 <body class="center-page">
 
-<button onclick="window.location.href='{{ url_for('index') }}'" 
-        class="change-btn back-btn">
-    ← Go Back
-</button>
+<div class="top-bar">
+    <div class="app-name">MOODIFY</div>
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+</div>
 
-<div class="card">
-    <h2>Choose Your Language</h2>
+<div class="card flow-card">
+
+    <h2 class="flow-title">Select Language</h2>
+
 
     <form action="/set_language" method="POST">
         <div class="options">
             <button type="submit" name="language" value="English" class="option-btn">
-                English
+                 English
             </button>
 
             <button type="submit" name="language" value="Hindi" class="option-btn">
                 Hindi
             </button>
-
-           
         </div>
     </form>
+
 </div>
 
 </body>

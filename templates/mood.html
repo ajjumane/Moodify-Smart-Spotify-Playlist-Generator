@@ -1,33 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Select Mood - MOODIFY</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+    <title>Select Mood - Moodify</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
 </head>
+
 <body class="center-page">
 
-<button onclick="window.location.href='{{ url_for('language') }}'" 
-        class="change-btn back-btn">
-    ← Go Back
-</button>
+<div class="top-bar">
+    <div class="app-name">MOODIFY</div>
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+</div>
 
+<div class="card flow-card">
 
+    <h2 class="flow-title">Select Your Mood</h2>
 
-<div class="card">
-    <h2>Select Your Mood</h2>
+ 
 
     <form action="/search" method="POST">
         <div class="options">
-            <button type="submit" name="mood" value="Party" class="option-btn">Party</button>
-            <button type="submit" name="mood" value="Sad" class="option-btn">Sad</button>
-            <button type="submit" name="mood" value="Romantic" class="option-btn">Romantic</button>
-            <button type="submit" name="mood" value="Energetic" class="option-btn">Energetic</button>
+            <button type="submit" name="mood" value="party" class="option-btn">
+                 Party
+            </button>
+
+            <button type="submit" name="mood" value="Sad" class="option-btn">
+                 Sad
+            </button>
+
+            <button type="submit" name="mood" value="romantic" class="option-btn">
+                Romantic
+            </button>
+
+            <button type="submit" name="mood" value="energetic" class="option-btn">
+                 Energetic
+            </button>
         </div>
     </form>
+
+    <a href="{{ url_for('language') }}" class="secondary-link">
+        ← Change Language
+    </a>
 
 </div>
 
