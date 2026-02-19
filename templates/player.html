@@ -16,6 +16,15 @@
     <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
 </div>
 
+{% if session.spotify_user %}
+    <div class="user-info">
+        {% if session.spotify_user.images %}
+            <img src="{{ session.spotify_user.images[0].url }}" class="profile-pic">
+        {% endif %}
+        <span>{{ session.spotify_user.display_name }}</span>
+    </div>
+{% endif %}
+
 <div class="main-container">
 
     {% if error %}

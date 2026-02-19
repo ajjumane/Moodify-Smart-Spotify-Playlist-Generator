@@ -128,6 +128,16 @@ def callback():
     session["expires_at"] = int(time.time()) + token_data.get("expires_in", 3600)
 
     return redirect("/language")
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+
+    profile_response = requests.get("https://api.spotify.com/v1/me", headers=headers)
+
+    if profile_response.status_code == 200:
+        profile_data = profile_response.json()
+        session["spotify_user"] = profile_data
+
 
 
 @app.route("/logout")

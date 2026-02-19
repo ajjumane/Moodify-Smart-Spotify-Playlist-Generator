@@ -846,3 +846,15 @@ input[type="range"]::-moz-range-thumb {
     background: rgba(255, 255, 255, 0.12);
     transform: translateY(-2px);
 }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
