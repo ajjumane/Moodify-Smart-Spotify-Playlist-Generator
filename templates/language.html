@@ -13,17 +13,32 @@
 <div class="top-bar">
     <div class="app-name">MOODIFY</div>
     <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
-</div>
 
-{% if session.spotify_user %}
-    <div class="user-info">
-        {% if session.spotify_user.images %}
-            <img src="{{ session.spotify_user.images[0].url }}" class="profile-pic">
-        {% endif %}
-        <span>{{ session.spotify_user.display_name }}</span>
+
+ <div class="account-wrapper">
+
+        <div class="account-btn" onclick="toggleDropdown()">
+            {% if session.spotify_user and session.spotify_user.images %}
+                <img src="{{ session.spotify_user.images[0].url }}" class="account-pfp">
+            {% else %}
+                <div class="account-placeholder"></div>
+            {% endif %}
+
+            <span class="account-name">
+                {{ session.spotify_user.display_name }}
+            </span>
+
+            <span class="dropdown-arrow">▾</span>
+        </div>
+
+        <div class="account-dropdown" id="accountDropdown">
+            <a href="{{ url_for('logout') }}" class="dropdown-item">
+                Logout
+            </a>
+        </div>
+
     </div>
-{% endif %}
-
+</div>
 <div class="card flow-card">
 
     <h2 class="flow-title">Select Language</h2>
@@ -42,6 +57,23 @@
     </form>
 
 </div>
+
+
+<script>
+function toggleDropdown() {
+    const dropdown = document.getElementById("accountDropdown");
+    dropdown.classList.toggle("show-dropdown");
+}
+
+window.addEventListener("click", function(e) {
+    const wrapper = document.querySelector(".account-wrapper");
+    if (!wrapper.contains(e.target)) {
+        document.getElementById("accountDropdown")
+            ?.classList.remove("show-dropdown");
+    }
+});
+</script>
+
 
 </body>
 </html>
