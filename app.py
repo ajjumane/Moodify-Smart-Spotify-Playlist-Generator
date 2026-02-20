@@ -23,9 +23,7 @@ PROFILE_URL = "https://api.spotify.com/v1/me"
 SCOPES = "user-read-playback-state user-modify-playback-state streaming"
 
 
-# -----------------------------
-# Helper: Refresh Access Token
-# -----------------------------
+
 def refresh_access_token():
     if "refresh_token" not in session:
         return False
@@ -56,9 +54,7 @@ def refresh_access_token():
     return True
 
 
-# -----------------------------
-# Helper: Get Valid Token
-# -----------------------------
+
 def get_valid_token():
     if "access_token" not in session:
         return None
@@ -71,9 +67,7 @@ def get_valid_token():
     return session.get("access_token")
 
 
-# -----------------------------
-# Routes
-# -----------------------------
+
 @app.route("/")
 def index():
     if "access_token" in session:
@@ -124,7 +118,7 @@ def callback():
     )
 
     if response.status_code != 200:
-        return "Authentication failed. Please try again."
+        return f"Authentication failed: {response.text}"
 
     token_data = response.json()
 
@@ -227,6 +221,17 @@ def search_playlist():
         main_playlist=main_playlist,
         suggestions=suggestions
     )
+
+@app.route("/player")
+def player():
+    user = session.get("spotify_user")
+
+    if not user:
+        return redirect(url_for("login"))
+
+    is_premium = user.get("product") == "premium"
+
+    return render_template("player.html", is_premium=is_premium)
 
 
 if __name__ == "__main__":
