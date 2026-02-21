@@ -61,7 +61,7 @@
                 Change Selection
             </a>
         </div>
-
+{% if is_premium %}
         <div class="player-section">
 
             <div class="player-card">
@@ -110,6 +110,14 @@
             </div>
         </div>
     </div>
+{% else %}
+
+    <div class="premium-lock">
+        <h3>🔒 Instant Playback Requires Spotify Premium</h3>
+        <p>You can still generate mood-based playlists below.</p>
+    </div>
+
+{% endif %}
 
     <div class="bottom-section">
         <h3 class="section-title">Suggested Playlists</h3>
